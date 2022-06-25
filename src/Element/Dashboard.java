@@ -250,6 +250,10 @@ public class Dashboard extends JFrame implements ActionListener{
         // Biar kalao dipencet, maka ...
         addToDoBtn.addActionListener(this);
         deleteToDoBtn.addActionListener(this);
+        saveButton.addActionListener(this);
+        historyBtn.addActionListener(this);
+        refreshBtn.addActionListener(this);
+
     }
 
     @Override
@@ -259,14 +263,26 @@ public class Dashboard extends JFrame implements ActionListener{
                     this, "To Do Successfully Saved!",
                     "Success",JOptionPane.INFORMATION_MESSAGE
             );
-
+        }
+        if (e.getSource() == historyBtn){
+            JOptionPane.showMessageDialog(
+                    this, "Ga kebayang bentuknya gmn :-(",
+                    "Success",JOptionPane.INFORMATION_MESSAGE
+            );
+        }
+        if (e.getSource() == refreshBtn){
+            JOptionPane.showMessageDialog(
+                    this, "Ga kebayang bentuknya gmn :-(",
+                    "Success",JOptionPane.INFORMATION_MESSAGE
+            );
         }
 
         if (e.getSource() == addToDoBtn) {
             new AddToDo(currentUser);
             this.dispose();
         }
-        else if (e.getSource() == deleteToDoBtn) {
+
+        if (e.getSource() == deleteToDoBtn) {
 
             int choose = JOptionPane.showConfirmDialog(
                     this, "Are You Sure Want to Delete This?",
@@ -275,10 +291,10 @@ public class Dashboard extends JFrame implements ActionListener{
 
             if (choose == JOptionPane.YES_OPTION){
                 database_.execute(
-                    "UPDATE user SET message = ? WHERE name = ?;", "", currentUser.getUsername()
+                    "UPDATE user SET message = ?, expire = ? WHERE name = ?;", "", "", currentUser.getUsername()
                 );
 
-                User newDataUser = new User(currentUser.getUsername(), currentUser.getPassword(), "", currentUser.getExpire());
+                User newDataUser = new User(currentUser.getUsername(), currentUser.getPassword(), "", "");
                 new Dashboard(newDataUser);
                 this.dispose();
             }
